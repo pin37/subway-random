@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="assets/favicon.png" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <title>сабвей рандом</title>
+  </head>
+  <body class="text-center">
+    <div class="form-signin">
+        <img class="mb-4" id="image" alt="" width="400" height="211">
+        <h1 class="h3 mb-3 font-weight-normal" id="label" style="font-size: 80px; font-weight: bold;"></h1>
+        <h1 class="text-muted" id="cost"></h1>
+        <button class="btn btn-lg btn-primary mt-3" style="width: 150px;" onclick="random(id)">не хочу</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        const subs = [
+            {
+                id: "rhein",
+                title: "Рейнский саб",
+                cost: 165
+            },
+            {
+                id: "chicken-cheese",
+                title: "Курица крем-чиз",
+                cost: 175
+            },
+            {
+                id: "teriyaki",
+                title: "Курица Терияки",
+                cost: 185
+            },
+            {
+                id: "tuna",
+                title: "Тунец",
+                cost: 170
+            },
+            {
+                id: "bmt",
+                title: "Итальянский БМТ",
+                cost: 165
+            },
+            {
+                id: "chicken-club",
+                title: "Чикен Клаб",
+                cost: 165
+            },
+            {
+                id: "biff",
+                title: "Биф Клаб Мелт",
+                cost: 165
+            },
+            {
+                id: "melt",
+                title: "Сабвэй Мелт",
+                cost: 178
+            },
+            {
+                id: "spicy-italian",
+                title: "Острый Итальянсикй",
+                cost: 160
+            },
+            {
+                id: "turkey",
+                title: "Индейка",
+                cost: 132
+            },
+            {
+                id: "ham",
+                title: "Ветчина",
+                cost: 132
+            },
+            {
+                id: "turkey-ham",
+                title: "Индейка и Ветчина",
+                cost: 135
+            },
+            {
+                id: "chicken-bacon",
+                title: "Курица и Бекон Мелт",
+                cost: 178
+            },
+            {
+                id: "alpine",
+                title: "Альпийский",
+                cost: 180
+            },
+            {
+                id: "mushroom",
+                title: "Грибной",
+                cost: 140
+            },
+            {
+                id: "chicken",
+                title: "Мега Чикен",
+                cost: 178
+            },
+            {
+                id: "salmon",
+                title: "Лосось Крем-Чиз",
+                cost: 205
+            },
+            {
+                id: "pork",
+                title: "Свинина Барбекю",
+                cost: 178
+            },
+            {
+                id: "vegetable",
+                title: "Овощной",
+                cost: 130
+            },
+            {
+                id: "seafood",
+                title: "Морепродукты",
+                cost: 135
+            }
+        ];
+
+        const breakfast = [
+            {
+                id: "mega-breakfast",
+                title: "Мега Завтрак Мелт",
+                cost: 140
+            },
+            {
+                id: "bacon-breakfast",
+                title: "Омлет и Бекон Мелт",
+                cost: 130
+            },
+            {
+                id: "omelet-breakfast",
+                title: "Омлет и сыр",
+                cost: 120
+            },
+        ];
+
+        const subsOfDay = [ "turkey-ham", "spicy-talian", "tuna", "bmt", "ham", "turkey", "mushroom" ];
+
+        let id;
+        random();
+
+        function random(id) {
+            const date = new Date();
+            const subOfDay = subsOfDay[date.getDay()];
+            const isBreakfast = date.getHours() < 12;
+
+            let db = subs;
+            if (isBreakfast) {
+                db = subs.concat(breakfast);
+            }
+
+            for (const sub of db) {
+                if (sub.id === subOfDay) {
+                    sub.cost = 119;
+                    break;
+                }
+            }
+
+            db.sort((a,b) => (a.cost > b.cost) ? 1 : ((b.cost > a.cost) ? -1 : 0));
+
+            const isOne = db.length < 2;
+
+            while (db.length > 1) {
+                const rand = Math.floor(Math.random() * 101);
+                let len = Math.floor((db.length - 1) / 2);
+                if (len === 0) {
+                    len = 1;
+                }
+
+                if (rand < 55) {
+                    db = db.slice(0, len);
+                } else {
+                    db = db.slice(len);
+                }
+            }
+
+            const sub = db[0];
+
+            if (!isOne && id && id === sub.id) {
+                random(id);
+                return;
+            }
+
+            id = sub.id;
+            const label = $('#label')[0];
+            label.innerHTML = `${sub.title}`
+
+            const cost = $('#cost')[0];
+            cost.innerHTML = `${sub.cost}₽`
+            if (sub.id === subOfDay) {
+                cost.innerHTML += " (саб дня)"
+            }
+
+            const image = $('#image')[0];
+            image.src = `assets/${sub.id}.jpg`
+        }
+    </script>
+  </body>
+</html>
